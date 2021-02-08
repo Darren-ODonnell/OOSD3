@@ -13,7 +13,6 @@ public class Driver {
 
         counter.start();
 
-
     }
 
     public static void main(String[] args) {
@@ -26,25 +25,17 @@ public class Driver {
 class Publisher extends Thread{
     Repository repo;
 
+    //Takes in the value in Repository for use inside this class
     Publisher(Repository repository){
         repo = repository;
     }
 
     public void run() {
-        int next= 0 , prev = -1 ;
         while(true) {
-           // System.out.println("Publisher: " + next);
-
             if(repo.isChanged()) {
-//                next = repo.get();
-//
-//                if (next != prev)
-                    System.out.println("Num: " + repo.get());
+                    System.out.println("Publisher: " + repo.get());
                 repo.setChanged(false);
-//                prev = next;
-
             }
-
         }
     }
 
@@ -53,9 +44,8 @@ class Publisher extends Thread{
 
 class Counter  extends Thread{
     Repository repo;
-    int i = -1;
 
-
+    //Takes in the value in Repository for use inside this class
     Counter(Repository repository){
         repo = repository;
     }
@@ -64,7 +54,7 @@ class Counter  extends Thread{
 
         int i = 1;
 
-        while(i<1000000) {
+        while(i<10000) {
 
             //If a new number isn't stored in repo, increment the repo, display  and exit if
             if (!repo.isChanged()) {
@@ -77,13 +67,7 @@ class Counter  extends Thread{
 
                 repo.setChanged(true);
             }
-
         }
-
-
-    }
-    public Repository getResult(){
-        return repo;
     }
 }
 
@@ -95,18 +79,19 @@ class Repository{
     public Repository() {
 
     }
-
+    //Allows for remote incrementing from other classes
     public synchronized void increment() {
         repository++;
     }
-
+    //Returns the number inside repository
     public synchronized int get() {
         return this.repository;
     }
-
+    //Returns whether the value has been changed
     public synchronized boolean isChanged() {
         return changed;
     }
+    //Sets the value of changed, this is done at the end of each iteration inside Counter and Publisher's run methods
     public synchronized void setChanged(boolean value) {
         changed = value;
     }
