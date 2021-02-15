@@ -1,5 +1,5 @@
 class Table1{
-    synchronized static void printTable(int n){//Synchronised Static Method
+    synchronized static void printTable(int n){ //Synchronised Static Method
         for(int i = 1; i <= 10; i++) {
             System.out.println(n * i);
             try {
