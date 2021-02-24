@@ -22,7 +22,14 @@ public class Driver {
                 /**
                  * InputStream is being blocked
                  */
-               
+                BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
+
+                String line;
+
+                //Prints the next line where there is still a next line to be printed
+                while ((line = reader.readLine()) != null) {
+                    System.out.println(line);
+                }
                 //Prints the exit code if no errors occur
                 int exitCode = process.waitFor();
                 System.out.println("\nExited with error code : " + exitCode);
