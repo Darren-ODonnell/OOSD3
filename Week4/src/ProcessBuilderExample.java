@@ -5,15 +5,36 @@ import java.io.InputStreamReader;
 
 public class ProcessBuilderExample {
 
-    public static void main(String[] args) throws IOException, InterruptedException {
+    public static void main(String[] args)  {
 
-        ProcessBuilder pb = new ProcessBuilder("print", "This is a ProcessBuilder Example for today's lesson");
+        ProcessBuilder pb = new ProcessBuilder();
+        pb.command("cmd.exe", "/c", "ping -n 10 github.com");
         System.out.println("Calling the start method now");
-        Process process = pb.start();
-        int errorCode = process.waitFor();
-        System.out.println("print process executed. any errors?" + (errorCode == 0 ? "No" : "Yes"));
 
-        System.out.println("Print process output: " + output(process.getInputStream()));
+        Process process = null;
+        try {
+            process = pb.start();
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.out.println("failed to start");
+        }
+
+        int errorCode = 0;
+        try {
+            errorCode = process.waitFor();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+            System.out.println("failed whiled waiting");
+        }
+
+        System.out.println("print process executed. any errors? " + (errorCode == 0 ? "No" : "Yes"));
+
+        try {
+            System.out.println("Print process output: " + output(process.getInputStream()));
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.out.println("failed when displaying");
+        }
 
     }
 
@@ -33,9 +54,6 @@ public class ProcessBuilderExample {
             }
             sb.append(line + "-");
         }
-
-
         return sb.toString();
-
     }
 }
