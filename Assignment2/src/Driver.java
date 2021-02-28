@@ -51,13 +51,9 @@ public class Driver {
 //The implements Callable<> inside the "<>" you put the return type you wish to return from the call method
 class Caller implements Callable<List<String>>{
 
-    //variable = InputStream
-    InputStream inputStream;
-
-    //Constructor (I/S -> InputStream)
     //HOW to call this new Caller(process.getInputStream())
-    public Caller(InputStream stream){
-        inputStream = stream;
+    public Caller(){
+
     }
     @Override
     /**
