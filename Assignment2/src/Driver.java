@@ -9,8 +9,7 @@ import java.util.concurrent.*;
 public class Driver{
     public static void main(String[] args) {
         // pool of 4 threads
-        ExecutorService executorService =
-                Executors.newFixedThreadPool(4);
+        ExecutorService executorService = Executors.newFixedThreadPool(4);
         List<Future<String>> futures = new ArrayList<>();
         // creates 4 callables to be executed
         for (int i = 0; i < 4; i++) {
@@ -23,6 +22,7 @@ public class Driver{
 
         }
         // getting tasks results
+
         for(int i = 0; i < futures.size(); i++) {
             try {
                 //Prints the output held in the futures list
