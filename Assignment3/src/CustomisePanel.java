@@ -19,7 +19,7 @@ public class CustomisePanel extends JPanel {
     final int DISK_TYPE = 2;
     final int DISK_SPACE = 3;
 
-    JPanel[] customisePanels = new JPanel[4];
+    JPanel[] customisePanels = new JPanel[3];
 
     Font font = new Font(Font.SERIF, Font.PLAIN,20);
     Font fontBold = new Font(Font.SERIF, Font.BOLD,20);
@@ -35,6 +35,7 @@ public class CustomisePanel extends JPanel {
 
         icon = new ImageIcon("Images/ProBook150.png");
         order = new Order();
+
 
         buildTopPanel(mainWindow);
         buildCustomisePanel();
@@ -90,16 +91,15 @@ public class CustomisePanel extends JPanel {
         customisePanel.setSize(1000,800);
 
         // configuration options
-        String[] processorOptions   = new String[]{"i3", "i5", "i7", "i9"};
-        String[] ramOptions         = new String[]{"8 GB", "16 GB", "32 GB", "64 GB"};
-        String[] diskTypeOptions    = new String[]{"SSD","HDD"};
-        String[] diskSpaceOptions   = new String[]{"128 GB", "256 GB", "512 GB", "1024 GB"};
+        String[] mainCourseOptions   = new String[]{"Burger", "Pizza", "Pasta", "Kebab"};
+        String[] sideOptions         = new String[]{"Chips", "Curly Fries", "Goujons", "Salad"};
+        String[] drinkOptions        = new String[]{"Coke", "7up", "Club Orange", "Club Lemon"};
+
 
         // build each config panel
-        buildCustomisePanel("Processor",     PROCESSOR,  processorOptions );
-        buildCustomisePanel("RAM",           RAM,        ramOptions );
-        buildCustomisePanel("Disk Type",     DISK_TYPE,  diskTypeOptions );
-        buildCustomisePanel("Disk Space",    DISK_SPACE, diskSpaceOptions );
+        buildCustomisePanel("Main Course",   PROCESSOR,  mainCourseOptions );
+        buildCustomisePanel("Side",          RAM,        sideOptions );
+        buildCustomisePanel("Drink",         DISK_TYPE,  drinkOptions );
 
         // add panels to customisePanel
         for (JPanel p : customisePanels) {

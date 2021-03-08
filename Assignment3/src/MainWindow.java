@@ -10,7 +10,7 @@ import javax.swing.*;
 
 public class MainWindow extends JFrame {
 
-    // List of computers currently in the cart;
+    // List of orders currently in the cart;
     private List<Order> orderList = new ArrayList<>();
 
     // References to each panel
@@ -19,14 +19,13 @@ public class MainWindow extends JFrame {
     JPanel mainPanel = new JPanel();
 
 
-    final private JMenuBar menuBar = new JMenuBar();// Menu Bar contains Home, Computers and Cart Menus
+    final private JMenuBar menuBar = new JMenuBar();// Menu Bar contains Home, orders and Cart Menus
 
     final private JMenu homeMenu = new JMenu("Home");// Home Menu contains an Exit option
     final private JMenuItem exitMenuITem = new JMenuItem("Exit");
 
-    final private JMenu shoppingMenu = new JMenu("Computers");// Computers contains preset Computers option and customise Computer options
-    final private JMenuItem presetsMenuItem = new JMenuItem("Preset Computers");
-    final private JMenuItem customiseMenuItem = new JMenuItem("Customise Computer");
+    final private JMenu shoppingMenu = new JMenu("orders");// orders contains preset orders option and customise Computer options
+    final private JMenuItem customiseMenuItem = new JMenuItem("Make Order");
 
     final private JMenu cartMenu = new JMenu("Cart");// Cart contains view Cart and clear Cart options
     final private JMenuItem viewCartMenuItem = new JMenuItem("View Cart");
@@ -41,8 +40,8 @@ public class MainWindow extends JFrame {
         buildCustomisationPanel();
         buildCartPanel();
 
-        buildMainPanel();
-        this.add(mainPanel);
+       // buildMainPanel();
+        // this.add(mainPanel);
 
 
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -51,6 +50,9 @@ public class MainWindow extends JFrame {
         this.setJMenuBar(menuBar);
 
     }
+
+
+
     private void buildCustomisationPanel() {
         customisePanel = new CustomisePanel(this);
         customisePanel.setVisible(false);
@@ -107,7 +109,6 @@ public class MainWindow extends JFrame {
 
         homeMenu.add(exitMenuITem);
 
-        shoppingMenu.add(presetsMenuItem);
         shoppingMenu.add(customiseMenuItem);
 
         cartMenu.add(viewCartMenuItem);
@@ -126,7 +127,7 @@ public class MainWindow extends JFrame {
         });
 
 
-        // Customise Computers menu item selected
+        // Customise orders menu item selected
         customiseMenuItem.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -182,7 +183,8 @@ public class MainWindow extends JFrame {
         });
     }
 
-    public static void main(String[] args) {
+    public List<Order> buildOrders(int count) {
+
         String systemLookAndFeelClassName = UIManager.getSystemLookAndFeelClassName();
         try {
             UIManager.setLookAndFeel(systemLookAndFeelClassName);
@@ -198,17 +200,19 @@ public class MainWindow extends JFrame {
 
         // Creates and assigns default values to the main Window
         MainWindow window = new MainWindow();
-        window.setTitle("Computer Shop");
+        window.setTitle("Cosy Cafe");
         window.setSize(1000, 1000);
         window.setLocationRelativeTo(null);
         window.setVisible(true);
 
         // Displays greeting message on initial opening of project
-        JLabel label = new JLabel("<HTML>Welcome! To view available computers,<br>To view our computers available, click the Computers menu option</HTML>");
+        JLabel label = new JLabel("<HTML>Welcome! To view available orders,<br>To view our orders available, click the orders menu option</HTML>");
         label.setFont(new Font("Serif", Font.BOLD, 18));
         JOptionPane.showMessageDialog(null, label);
 
+        return orderList;
 
     }
+
 }
 

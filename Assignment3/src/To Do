@@ -1,0 +1,14 @@
+Restaurant holds an order
+this is updated when an order is input in the gui
+this order is sent to waiter a
+
+waiter accesses the order from GUI and gives it to the chef
+waiter then waits for chef to notify when the meal is done
+waiter than displays the order on gui
+
+chef receives the order
+the chef waits 10 seconds (prep time of food)
+chef uses notify to to give the waiter the meal
+chef waits for waiter to pass another meal to him
+
+Ask for user input for the next order

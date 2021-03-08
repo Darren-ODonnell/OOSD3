@@ -82,9 +82,9 @@ public class OrderPanel extends JPanel {
         buyButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                JLabel label = new JLabel("<HTML>Thank You for shopping your total came to: €" + cartTotal + "<BR>You will now be returned to the home screen </HTML>");
-                label.setFont(new Font("Serif", Font.BOLD, 18));
-                JOptionPane.showMessageDialog(OrderPanel.this, label);
+                //JLabel label = new JLabel("<HTML>Thank You for shopping your total came to: €" + cartTotal + "<BR>You will now be returned to the home screen </HTML>");
+                //label.setFont(new Font("Serif", Font.BOLD, 18));
+
                 mainWindow.clearCart();
 
                 mainWindow.getContentPane().removeAll();
@@ -92,6 +92,7 @@ public class OrderPanel extends JPanel {
 
                 mainWindow.mainPanel.setVisible(true);
                 mainWindow.repaint();
+
             }
         });
 

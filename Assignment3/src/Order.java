@@ -1,8 +1,9 @@
 
-import javax.swing.*;
 import java.io.Serializable;
 
 public class Order implements Serializable {
+
+    private boolean isCooked = false;
 
     String[] mainCourseOptions = new String[]{"Burger", "Pizza", "Pasta", "Kebab"};
     int[] mainCoursePrices = new int[]{10, 12, 8, 6};
@@ -18,11 +19,12 @@ public class Order implements Serializable {
     int drinkOption;
     int quantity;
 
+
     public int basePrice = 0;
 
 
     public Order() {
-
+        initTotalPrice();
     }
 
 
@@ -159,6 +161,14 @@ public class Order implements Serializable {
                 this.getDrinkOption() + END_HTML;
 
         return html;
+    }
+
+    public void setCooked(boolean cooked){
+        isCooked = cooked;
+    }
+
+    public boolean isCooked(){
+        return isCooked;
     }
 
 
