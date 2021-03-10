@@ -17,7 +17,6 @@ public class CustomisePanel extends JPanel {
     final int PROCESSOR = 0;
     final int RAM = 1;
     final int DISK_TYPE = 2;
-    final int DISK_SPACE = 3;
 
     JPanel[] customisePanels = new JPanel[3];
 

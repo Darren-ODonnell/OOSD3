@@ -1,34 +1,32 @@
+package Temporary;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class Restaurant {
 
-
-    private List<Order> orders = new ArrayList<>();
+    List<Order> orders = new ArrayList<>();
+    private Order order = new Order();
     private Waiter waiter = new Waiter();
     private Chef chef = new Chef();
-    private MainWindow gui = new MainWindow();
+   // private MainWindow gui = new MainWindow();
 
-    public int orderCount = 3;
 
-    public  Restaurant(){
+    public Restaurant(){
         //User inputs the order they want
         //Order created
         //Waiter Picks up the order
+        waiter.start();
+        chef.start();
+
         //Waiter passes the order to the chef and the chef starts a thread
         //Presume the meal prep takes a set amount of time
         //After this amount of time the chef thread should notify the waiter
         //waiter waits until chef notifies
-
-        waiter.start();
-        chef.start();
-
         createSampleOrders();
 
         processOrders();
-
     }
-
     private void createSampleOrders() {
 //        gui.buildOrders(orderCount);
         Order o3 = new Order(0,0,0);
@@ -49,7 +47,7 @@ public class Restaurant {
         for (Order o : orders) {
             waiter.setOrder(o);
             waiter.setChef(chef);
-            while(!o.isCooked()) ;
+            //while(!o.isCooked()) ;
         }
 
     }

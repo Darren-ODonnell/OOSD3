@@ -1,5 +1,6 @@
-public class Waiter {
+public class Waiter extends Thread{
     private Order order;
+    private Chef chef;
 
     public Waiter() {
 
@@ -17,17 +18,34 @@ public class Waiter {
 
     }
 
-    public void deliverOrder(Chef chef){
-            while(!order.isCooked()){
+    public synchronized void run(){
+         /**
+         * Need to set a new order whenever the first order is cooked
+         * setCooked to false
+         */
+        while(!order.isCooked()){
 
-                    System.out.println("\n\nWaiter before cooked: " + order.toString());
-                    //Passes the order to the chef, boolean in chef requires this to occur first;
-                    chef.setOrder(order);
-                    chef.prepareOrder();
-                    //Wait for chef to finish preparing the meal
+            System.out.println("\nWaiter before cooked: " + order.toString());
+            //Passes the order to the chef, boolean in chef requires this to occur first;
+            System.out.println("Order is null? "+(order==null?"True":"False"));
+
+        chef.setOrder(order);
+            try {
+                order.notify();
+                order.wait();
+            }catch(IllegalMonitorStateException  | InterruptedException e){
+                e.printStackTrace();
             }
-            System.out.println("Waiter has returned with order: " + order.toString());
-            order.setCooked(false);
+            //chef.prepareOrder();
+            //Wait for chef to finish preparing the meal
 
+        }
+        if(order.isCooked()) {
+            System.out.println("Waiter has returned with order: " + order.toString());
+        }
+    }
+
+    public void setChef(Chef chef) {
+        this.chef = chef;
     }
 }
