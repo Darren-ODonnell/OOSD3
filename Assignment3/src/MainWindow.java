@@ -31,6 +31,8 @@ public class MainWindow extends JFrame {
     final private JMenuItem viewCartMenuItem = new JMenuItem("View Cart");
     final private JMenuItem clearCartMenuItem = new JMenuItem("Clear Cart");
 
+
+
     Font font = new Font(Font.SERIF, Font.PLAIN, 20);
 
     public MainWindow() {

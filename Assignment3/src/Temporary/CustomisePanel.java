@@ -1,5 +1,6 @@
 package Temporary;
 import net.miginfocom.swing.MigLayout;
+import sun.applet.Main;
 
 import javax.swing.*;
 import java.awt.*;
@@ -15,9 +16,9 @@ public class CustomisePanel extends JPanel {
     private ImageIcon icon;
     private Order order;
 
-    final int PROCESSOR = 0;
-    final int RAM = 1;
-    final int DISK_TYPE = 2;
+    final int mainCourse = 0;
+    final int side = 1;
+    final int drink = 2;
 
     JPanel[] customisePanels = new JPanel[3];
 
@@ -31,7 +32,7 @@ public class CustomisePanel extends JPanel {
 
         Dimension dim = new Dimension(1000,1000);
         this.setSize(dim);
-       // this.setLayout(new MigLayout("","[100%]", "[30%][18%][18%][18%][18%]"));
+        this.setLayout(new MigLayout("","[100%]", "[30%][18%][18%][18%][18%]"));
 
         icon = new ImageIcon("Images/ProBook150.png");
         order = new Order();
@@ -49,7 +50,7 @@ public class CustomisePanel extends JPanel {
     public void buildTopPanel(MainWindow mainWindow) {
 
         // Create 4 columns here for Image, Headers, Details and Price
-       // topPanel.setLayout(new MigLayout("","[30%, center][25%, center][25%, left][20%, center]"));
+        topPanel.setLayout(new MigLayout("","[30%, center][25%, center][25%, left][20%, center]"));
         topPanel.setSize(1000,200);
 
         // create component for headers and bold this text
@@ -65,9 +66,25 @@ public class CustomisePanel extends JPanel {
             public void actionPerformed(ActionEvent e) {
 
                 mainWindow.addToCart(order);
-                JLabel label = new JLabel("Computer added to cart successfully");
-                label.setFont(new Font("Serif", Font.BOLD, 18));
-                JOptionPane.showMessageDialog(CustomisePanel.this,label);
+
+                mainWindow.order = order;
+                Restaurant.getWaiter().setOrder(mainWindow.order);
+
+                System.out.println(Restaurant.getWaiter().getOrder().toString());
+                Restaurant.getWaiter().start();
+                Restaurant.getChef().start();
+
+                mainWindow.buildOrderPanel();
+
+                mainWindow.getContentPane().removeAll();
+                mainWindow.getContentPane().add(mainWindow.orderPanel);
+
+                mainWindow.orderPanel.setVisible(true);
+                mainWindow.repaint();
+//                JLabel label = new JLabel("Waiter has picked up order");
+//                label.setFont(new Font("Serif", Font.BOLD, 18));
+//                JOptionPane.showMessageDialog(CustomisePanel.this,label);
+
                 order = new Order();
             }
         });
@@ -87,7 +104,7 @@ public class CustomisePanel extends JPanel {
     }
 
     public void buildCustomisePanel() {
-        //customisePanel.setLayout(new MigLayout("","[100%]","[25%][25%][25%][25%]"));
+        customisePanel.setLayout(new MigLayout("","[100%]","[25%][25%][25%][25%]"));
         customisePanel.setSize(1000,800);
 
         // configuration options
@@ -97,9 +114,9 @@ public class CustomisePanel extends JPanel {
 
 
         // build each config panel
-        buildCustomisePanel("Main Course",   PROCESSOR,  mainCourseOptions );
-        buildCustomisePanel("Side",          RAM,        sideOptions );
-        buildCustomisePanel("Drink",         DISK_TYPE,  drinkOptions );
+        buildCustomisePanel("Main Course", mainCourse,  mainCourseOptions );
+        buildCustomisePanel("Side", side,        sideOptions );
+        buildCustomisePanel("Drink", drink,  drinkOptions );
 
         // add panels to customisePanel
         for (JPanel p : customisePanels) {
@@ -111,7 +128,7 @@ public class CustomisePanel extends JPanel {
     public JPanel buildRadioButtonPanel(final String[] options,int type) {
 
         JPanel panel = new JPanel();
-       // panel.setLayout(new MigLayout("", "[Center]"));
+        panel.setLayout(new MigLayout("", "[Center]"));
         JRadioButton[] radioButtons = new JRadioButton[options.length]; // the array of radioButtons
 
         ButtonGroup radioButtonGroup = new ButtonGroup(); // used for exclusion
@@ -163,7 +180,7 @@ public class CustomisePanel extends JPanel {
     // Creates the initial customise Panel
     public JPanel initCustomisePanel(String headerStr) {
         JPanel panel = new JPanel();
-        //panel.setLayout(new MigLayout("","[30%,center][50%,left][20%, center]"));
+        panel.setLayout(new MigLayout("","[30%,center][50%,left][20%, center]"));
         panel.setSize(1000,180);
 
         // add Header label in first column

@@ -132,6 +132,12 @@ public class Order implements Serializable {
                 '}';
     }
 
+    public String toDisplay() {
+        return getMainCourseStr() +
+                ", " + getSideOption() +
+                ", " + getDrinkOption();
+    }
+
     public String headers() {
 
         String START_HTML = "<HTML>";
@@ -158,6 +164,20 @@ public class Order implements Serializable {
         String html = START_HTML +
                 this.getMainCourseStr() + LINE_BREAK +
                 this.getSideOption() + LINE_BREAK +
+                this.getDrinkOption() + END_HTML;
+
+        return html;
+    }
+    public String toHtmlLabel() {
+
+        String START_HTML = "<HTML>";
+        String END_HTML = "</HTML>";
+        String LINE_BREAK = "<BR>";
+
+
+        String html = START_HTML +
+                this.getMainCourseStr() + ", " +
+                this.getSideOption() + ", " +
                 this.getDrinkOption() + END_HTML;
 
         return html;

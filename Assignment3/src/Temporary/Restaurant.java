@@ -1,4 +1,6 @@
 package Temporary;
+import javax.swing.*;
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -7,17 +9,16 @@ import static java.lang.Thread.sleep;
 
 public class Restaurant {
 
+    private static MainWindow mainWindow = new MainWindow();
 
-    private List<Order> orders = new ArrayList<>();
-    private Waiter waiter = new Waiter();
-    private Chef chef = new Chef();
-    private MainWindow gui = new MainWindow();
+    private static Waiter waiter = new Waiter(mainWindow);
+    private static Chef chef = new Chef(mainWindow);
     public static  boolean orderComplete = false;
 
     // only one static copy of order is used throughout the program
     public static Order order = null;
 
-    public int orderCount = 3;
+    public int orderCount = 0;
 
     public  Restaurant(){
         //User inputs the order they want
@@ -29,50 +30,55 @@ public class Restaurant {
         //waiter waits until chef notifies
 //
         // create
-        createSampleOrders();
+//        createSampleOrders();
+//        mainWindow.buildOrders(orderCount);
+//        if (!waiter.isAlive()) waiter.start();
+//        if (!chef.isAlive()) chef.start();
 
+        // start gui
+
+        // start processing orders
         processOrders();
 
     }
     public static void sleep(int seconds) {
         try {
-            TimeUnit.MILLISECONDS.sleep(seconds);
+            TimeUnit.SECONDS.sleep(seconds);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
     }
-    private void createSampleOrders() {
-//        gui.buildOrders(orderCount);
-        Order o3 = new Order(0,0,0);
-        Order o2 = new Order(1,1,1);
-        Order o1 = new Order(2,2,2);
-        orders.add(o1);
-        orders.add(o2);
-        orders.add(o3);
 
+    public static Waiter getWaiter() {
+        return waiter;
+    }
+    public static Chef getChef() {
+        return chef;
     }
 
-    private void processOrders() {
 
-        for (Order o : orders) {
-            orderComplete = false;
-            order = o;
-            System.out.println("Restaurant - New Order - "+order.toString());
-            // start services if not already started
-            if(!waiter.isAlive()) waiter.start();
-            if(!chef.isAlive()) chef.start();
+    public void processOrders() {
 
-            // wait until order has benn completed
-            while(!orderComplete) sleep(1);
+        // run gui - to create order in mainWindow.order
+
+        mainWindow.buildOrders(1);
+        System.out.println("Order : " + mainWindow.order.toString());
+
+        // start threads to process order
+
+        // on order completion
+        // interrupt both threads to stop them
+        // set order to null
+        // loop to next order.
+
+
 
         }
 
-        System.out.println("Restaurant - All Orders Processed");
-    }
 
-    public void AddOrder(Order order){
-        orders.add(order);
-    }
+//    public void AddOrder(Order order){
+//        orders.add(order);
+//    }
 
     synchronized public void sendToWaiter(Order order){
 
@@ -80,7 +86,7 @@ public class Restaurant {
 
     synchronized public void sendToChef(Order order){
 
-        chef.setOrder(order);
+        chef.setOrder(mainWindow.order);
     }
 
     public static void main(String[] args) {

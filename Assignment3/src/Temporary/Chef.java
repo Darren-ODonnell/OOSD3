@@ -1,11 +1,17 @@
 package Temporary;
+import javax.swing.*;
+import java.awt.*;
 import java.util.concurrent.TimeUnit;
 
 public class Chef extends Thread {
     private Order order = null;
+    MainWindow mainWindow;
 
+    Chef(MainWindow mainWindow){
+        this.mainWindow = mainWindow;
+    }
     public void setOrder(Order order) {
-        this.order = order;
+        this.order = this.order;
     }
 
     public void run() {
@@ -14,23 +20,28 @@ public class Chef extends Thread {
 
         while (true) {
             // wait until order is available
-            while (Restaurant.order == null || Restaurant.orderComplete) {
+            while (mainWindow.order == null || Restaurant.orderComplete) {
                 Restaurant.sleep(1);
+                System.out.println("Chef - inside while  " + (mainWindow.order == null ? "True" : "False"+ " - " + mainWindow.order.toString()) );
             }
-            synchronized (Restaurant.order) {
-                System.out.println("Chef - inside sync " + (Restaurant.order == null ? "True" : "False") + " - " + Restaurant.order.toString());
+            synchronized (mainWindow.order) {
+
+                mainWindow.changeLabelState(mainWindow.cooking);
+
+                System.out.println("Chef - inside sync " + (mainWindow.order == null ? "True" : "False"+ " - " + mainWindow.order.toString()) );
                 try {
                     // Cooking
-                    System.out.println("Chef - inside try " + (Restaurant.order == null ? "True" : "False") + Restaurant.order.toString());
+                    System.out.println("Chef - inside try " + (mainWindow.order == null ? "True" : "False"+ mainWindow.order.toString()) );
                     // cooking time
-                    Restaurant.order.wait(3000);
+                    mainWindow.order.wait(3000);
                     // Has Cooked
                     // trigger to tell waiter to collect and deliver order
-                    Restaurant.order.setCooked(true);
+                    mainWindow.order.setCooked(true);
                     // trigger for next order top be released
                     Restaurant.orderComplete = true;
+                    mainWindow.changeLabelState(mainWindow.cooking);
                     // tell waiter order ios free to use.
-                    Restaurant.order.notify();
+                    mainWindow.order.notify();
 
                 } catch (InterruptedException | IllegalMonitorStateException e) {
                     e.printStackTrace();
