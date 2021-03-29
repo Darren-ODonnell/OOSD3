@@ -1,6 +1,3 @@
-import javax.swing.*;
-import java.awt.*;
-
 public class Waiter extends Thread{
     private String order;
     private Chef chef;
@@ -30,9 +27,7 @@ public class Waiter extends Thread{
 
              synchronized(Restaurant.lock) {
 
-//                 System.out.println(Restaurant.order_State);
-//                 System.out.println(Restaurant.BEFORE);
-                 if(Restaurant.order_State.equals(Restaurant.BEFORE)) {
+                 if(Restaurant.order_State.equals(Restaurant.NEW_ORDER)) {
 
                      System.out.println("Waiter - Order is null? " + (Restaurant.order.equals("") ? "True " : "False " + Restaurant.order));
 

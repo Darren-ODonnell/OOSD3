@@ -3,6 +3,7 @@ package Temporary;// Source code recreated from a .class file by IntelliJ IDEA
 //
 
 import javax.swing.*;
+import javax.swing.plaf.FontUIResource;
 import javax.swing.table.JTableHeader;
 import java.awt.*;
 import java.util.List;
@@ -28,8 +29,6 @@ public class Display {
     }
     // take in values for the 2 buttons
     public Integer optionMessage(String leftButton, String rightButton, String[] list){
-        //UIManager.put("OptionPane.cancelButtonText", rightButton);
-        //UIManager.put("OptionPane.okButtonText", leftButton);
         Object[] choices = {leftButton, rightButton};
         Object defaultChoice = choices[0];
         String strList = "";
@@ -133,5 +132,23 @@ public class Display {
     public void showErrorMessage(String message) {
         JOptionPane.showMessageDialog(null, message, null,JOptionPane.ERROR_MESSAGE);
     }
+
+    /**
+     * sets all joption pane defaults  to that around the default font.
+     * @param option
+     */
+    public static void setUIFont(String option){
+        Font a = new Font(Font.SERIF, Font.BOLD, 20);
+        if (option.equals("BiggerJoptionPaneButtons")) {
+            FontUIResource ax = new FontUIResource(a);
+            javax.swing.UIManager.put("OptionPane.messageFont", ax);
+            javax.swing.UIManager.put("OptionPane.buttonFont", ax);
+            javax.swing.UIManager.put("OptionPane.Font", ax);
+            javax.swing.UIManager.put("InternalFrame.titleFont", ax);
+            javax.swing.UIManager.put("TextField.font", ax);
+            javax.swing.UIManager.put("ComboBox.font", ax);
+        }
+    }
+
 }
 

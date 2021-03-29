@@ -16,18 +16,15 @@ public class MainWindow extends JFrame {
     OrderPanel orderPanel;
     Order order = null; // single order object used throughout program
     JPanel mainPanel = new JPanel();
+    Display display = new Display();
 
     final private JMenuBar menuBar = new JMenuBar();// Menu Bar contains Home, orders and Cart Menus
 
     final private JMenu homeMenu = new JMenu("Home");// Home Menu contains an Exit option
-    final private JMenuItem exitMenuITem = new JMenuItem("Exit");
+    final private JMenuItem exitMenuItem = new JMenuItem("Exit");
 
-    final private JMenu shoppingMenu = new JMenu("orders");// orders contains preset orders option and customise Computer options
+    final private JMenu shoppingMenu = new JMenu("Orders");// orders contains preset orders option and customise Computer options
     final private JMenuItem customiseMenuItem = new JMenuItem("Make Order");
-
-    final private JMenu cartMenu = new JMenu("Cart");// Cart contains view Cart and clear Cart options
-    final private JMenuItem viewCartMenuItem = new JMenuItem("View Cart");
-    final private JMenuItem clearCartMenuItem = new JMenuItem("Clear Cart");
 
     Font font = new Font(Font.SERIF, Font.PLAIN, 20);
     Font font30 = new Font(Font.SERIF, Font.BOLD, 30);
@@ -38,6 +35,7 @@ public class MainWindow extends JFrame {
     public static JLabel deliveredToCustomer = new JLabel("   No Order   ");
 
     public MainWindow() {
+        Display.setUIFont("BiggerJoptionPaneButtons");
         this.setLayout(new MigLayout(""));
         this.setFont(font);
 
@@ -48,8 +46,8 @@ public class MainWindow extends JFrame {
         buildOrderProcessingLabels();
 
 
-       // buildMainPanel();
-        // this.add(mainPanel);
+        buildMainPanel();
+        this.add(mainPanel);
 
 
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -81,21 +79,6 @@ public class MainWindow extends JFrame {
 
     }
 
-//    public JLabel changeLabelState(JLabel label){
-//        if(label.getText().equals("Waiting")){
-//            label.setText("Processing");
-//            label.setBackground(Color.red);
-//        }else if(label.getText().equals("Processing")){
-//            label.setText("Delivered");
-//            label.setBackground(Color.green);
-//        }else if(label.getText().equals("Delivered")){
-//            label.setText("Waiting");
-//            label.setBackground(Color.gray);
-//
-//        }
-//        return label;
-//        }
-
     private void buildCustomisationPanel() {
         customisePanel = new CustomisePanel(this);
         customisePanel.setVisible(false);
@@ -105,16 +88,9 @@ public class MainWindow extends JFrame {
     // Builds the landing page of the project
     public void buildMainPanel(){
         mainPanel.setLayout(new MigLayout("", "[50%][50%]", "[50%][50%]"));
-        String[] pictureArray = new String[]{"Images/ProBook500.png", "Images/EliteBook500.png", "Images/Pavilion500.png", "Images/HP Personal500.png"};
-        for(int i =0; i < pictureArray.length; i++) {
-            ImageIcon icon = new ImageIcon(pictureArray[i]);
-            JLabel picLabel = new JLabel(icon);
-            if(i == 1 || i == 3) {
-                mainPanel.add(picLabel, "wrap");
-            }else{
-                mainPanel.add(picLabel);
-            }
-        }
+        ImageIcon icon = new ImageIcon("Images/Meal_Image.png");
+        JLabel picLabel = new JLabel(icon);
+        mainPanel.add(picLabel);
     }
 
     // adds computer to the cart
@@ -125,11 +101,6 @@ public class MainWindow extends JFrame {
     // returns full cart
     public Order getOrder() {
         return order;
-    }
-
-    // Removes all cart items
-    public void clearOrder() {
-        order = null;
     }
 
     public void buildOrderPanel() {
@@ -143,26 +114,19 @@ public class MainWindow extends JFrame {
 
         menuBar.add(homeMenu);
         menuBar.add(shoppingMenu);
-        menuBar.add(cartMenu);
 
-        homeMenu.add(exitMenuITem);
+        homeMenu.add(exitMenuItem);
 
         shoppingMenu.add(customiseMenuItem);
 
-        cartMenu.add(viewCartMenuItem);
-        cartMenu.add(clearCartMenuItem);
-
         // Exit menu item selected
-        exitMenuITem.addActionListener(new ActionListener() {
+        exitMenuItem.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                JLabel label = new JLabel("Please Confirm Exit operation");
-                label.setFont(new Font("Serif", Font.BOLD, 18));
-                if (JOptionPane.showConfirmDialog(MainWindow.this, label, "Exit", JOptionPane.OK_CANCEL_OPTION) == 0) {
+                if( display.confirmYesNo("Please Confirm Exit operation","Exit Dialog")==0) {
                     synchronized (Restaurant.lock) {
                         Restaurant.order_state.setState(Restaurant.EXIT);
                     }
-
                 }
             }
         });
@@ -173,58 +137,18 @@ public class MainWindow extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 MainWindow.this.getContentPane().removeAll();
+
+                customisePanel.repaint();
+
                 MainWindow.this.getContentPane().add(customisePanel);
 
                 customisePanel.setVisible(true);
                 mainWindow.repaint();
             }
         });
-
-        // View Cart menu item selected
-        viewCartMenuItem.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                buildOrderPanel();
-
-                MainWindow.this.getContentPane().removeAll();
-                MainWindow.this.getContentPane().add(orderPanel);
-
-                if (order != null) {
-                    orderPanel.setVisible(true);
-                    mainWindow.repaint();
-                } else {
-                    JLabel label = new JLabel("Cart is empty");
-                    label.setFont(new Font("Serif", Font.BOLD, 18));
-                    JOptionPane.showMessageDialog(MainWindow.this, label);
-                }
-            }
-        });
-
-        // Clear Cart menu item selected
-        clearCartMenuItem.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-
-                if (order != null) {
-                    JLabel label = new JLabel("Are you sure you want to clear the cart?");
-                    label.setFont(new Font("Serif", Font.BOLD, 18));
-                    int result = JOptionPane.showConfirmDialog(MainWindow.this, label, "Clear Cart", JOptionPane.YES_NO_OPTION);
-
-                    if (result == JOptionPane.YES_OPTION) {
-                        clearOrder();
-                        MainWindow.this.getContentPane().remove(orderPanel);
-                        MainWindow.this.getContentPane().repaint();
-                    }
-                } else {
-                    JLabel label = new JLabel("Cart Already Empty");
-                    label.setFont(new Font("Serif", Font.BOLD, 18));
-                    JOptionPane.showMessageDialog(MainWindow.this, label);
-                }
-            }
-        });
     }
 
-    public void buildOrders(int count) {
+    public void buildOrders() {
 
         String systemLookAndFeelClassName = UIManager.getSystemLookAndFeelClassName();
         try {
@@ -233,7 +157,7 @@ public class MainWindow extends JFrame {
             e.printStackTrace();
         }
 
-        Font f = new Font(Font.SERIF, Font.PLAIN, 24);
+        Font f = new Font(Font.SERIF, Font.PLAIN, 30);
         // Sets font for all instances of menu, menuBar and Menuitem
         UIManager.put("Menu.font", f);
         UIManager.put("MenuBar.font", f);
@@ -242,30 +166,28 @@ public class MainWindow extends JFrame {
         // Creates and assigns default values to the main Window
         MainWindow window = new MainWindow();
         window.setTitle("Cosy Cafe");
-        window.setSize(1000, 1000);
+        window.setSize(1150, 1000);
         window.setLocationRelativeTo(null);
         window.setVisible(true);
 
         // Displays greeting message on initial opening of project
-        JLabel label = new JLabel("<HTML>Welcome!<br>To view our orders available, click the orders menu option</HTML>");
-        label.setFont(new Font("Serif", Font.BOLD, 18));
-        JOptionPane.showMessageDialog(null, label);
+
+         display.showMessage( "Welcome! To make an order, please click the Orders menu");
 
     }
 
+    // The threads work based on this atomic variable which is change to represent where the order is along the production line
+    // The if statements are used to modify the GUI view of the order as it is processing
     public void changeMainWindowState() {
         AtomicInteger NO_ORDER  = new AtomicInteger(-2);
-        AtomicInteger BEFORE    = new AtomicInteger(-1);
+        AtomicInteger NEW_ORDER    = new AtomicInteger(-1);
         AtomicInteger COOKING   = new AtomicInteger(0);
         AtomicInteger FINISHED  = new AtomicInteger(1);
         AtomicInteger DELIVERED = new AtomicInteger(2);
-        AtomicInteger EXIT      = new AtomicInteger(10);
 
         final String NoOrder       = "   No Order   ";
-        final String Before        = "  Order Start ";
         final String Cooking       = "    Cooking   ";
         final String Cooked        = "    Cooked    ";
-        final String Finished      = "    Cooked    ";
         final String Delivered     = "   Delivered  ";
         final String Waiting       = "    Waiting   ";
         final String OrderReceived = "Order Received";
@@ -275,7 +197,7 @@ public class MainWindow extends JFrame {
                     Color.lightGray, Color.lightGray, Color.lightGray,
                     NoOrder, NoOrder, NoOrder);
         } else
-        if(Restaurant.order_state.equals(BEFORE)) {
+        if(Restaurant.order_state.equals(NEW_ORDER)) {
             setOrderStatusBlocks(
                     Color.green, Color.lightGray, Color.lightGray,
                     OrderReceived, Waiting, Waiting);
@@ -297,6 +219,7 @@ public class MainWindow extends JFrame {
         }
     }
 
+    // Updates the GUI Text and Colour to accurately represent the order state
     public void setOrderStatusBlocks(Color deliverCol,  Color cookingCol, Color customerCol,
                                      String deliverTxt, String cookTxt,   String customerTxt) {
         deliverToChef.setBackground(deliverCol);
@@ -306,6 +229,17 @@ public class MainWindow extends JFrame {
         deliverToChef.setText(deliverTxt);
         cooking.setText(cookTxt);
         deliveredToCustomer.setText(customerTxt);
+    }
+
+    public JLabel getDeliverToChef() {
+        return deliverToChef;
+    }
+    public JLabel getDeliveredToCustomer() {
+        return deliveredToCustomer;
+    }
+
+    public JLabel getCooking() {
+        return cooking;
     }
 }
 

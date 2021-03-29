@@ -1,10 +1,11 @@
 package Temporary;
-import net.miginfocom.swing.MigLayout;
 
+import net.miginfocom.swing.MigLayout;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
 
 public class CustomisePanel extends JPanel {
 
@@ -21,8 +22,8 @@ public class CustomisePanel extends JPanel {
 
     JPanel[] customisePanels = new JPanel[3];
 
-    Font font = new Font(Font.SERIF, Font.PLAIN,20);
-    Font fontBold = new Font(Font.SERIF, Font.BOLD,20);
+    Font font = new Font(Font.SERIF, Font.PLAIN,30);
+    Font fontBold = new Font(Font.SERIF, Font.BOLD,30);
 
     public CustomisePanel(MainWindow mainWindow){
         // Sets font for all instances of JLabel and JRadioButton
@@ -49,8 +50,8 @@ public class CustomisePanel extends JPanel {
     public void buildTopPanel(MainWindow mainWindow) {
 
         // Create 4 columns here for Image, Headers, Details and Price
-        topPanel.setLayout(new MigLayout("","[30%, center][25%, center][25%, left][20%, center]"));
-        topPanel.setSize(1000,200);
+        topPanel.setLayout(new MigLayout("","[30%, left][30%, left][40%, left]"));
+        topPanel.setSize(1150,200);
 
         // create component for headers and bold this text
         JLabel label = new JLabel();
@@ -58,28 +59,20 @@ public class CustomisePanel extends JPanel {
         label.setText(order.headers());
 
         // create button
-        JButton addToCartButton = new JButton("Order to Chef");
-        addToCartButton.setFont(fontBold);
-        addToCartButton.addActionListener(new ActionListener() {
+        JButton orderToChef = new JButton("Order to Chef");
+        orderToChef.setFont(fontBold);
+        orderToChef.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
 
                 mainWindow.addToCart(order);
-
-                mainWindow.order = order;
-
                 Restaurant.order = order;
-
                 mainWindow.buildOrderPanel();
 
                 mainWindow.getContentPane().removeAll();
                 mainWindow.getContentPane().add(mainWindow.orderPanel);
-
                 mainWindow.orderPanel.setVisible(true);
                 mainWindow.repaint();
-//                JLabel label = new JLabel("Waiter has picked up order");
-//                label.setFont(new Font("Serif", Font.BOLD, 18));
-//                JOptionPane.showMessageDialog(CustomisePanel.this,label);
 
                 order = new Order();
             }
@@ -93,26 +86,26 @@ public class CustomisePanel extends JPanel {
         // add these four elements to the top panel
         topPanel.add(label);
         topPanel.add(configLabel);
-        topPanel.add(addToCartButton);
+        topPanel.add(orderToChef);
 
 
 
     }
 
     public void buildCustomisePanel() {
-        customisePanel.setLayout(new MigLayout("","[100%]","[25%][25%][25%][25%]"));
-        customisePanel.setSize(1000,800);
+        customisePanel.setLayout(new MigLayout("","[100%]","[30%][70%]"));
+        customisePanel.setSize(1150,800);
 
         // configuration options
-        String[] mainCourseOptions   = new String[]{"Burger", "Pizza", "Pasta", "Kebab"};
-        String[] sideOptions         = new String[]{"Chips", "Curly Fries", "Goujons", "Salad"};
-        String[] drinkOptions        = new String[]{"Coke", "7up", "Club Orange", "Club Lemon"};
+        String[] mainCourseOptions   = new String[]{"Burger", "Pizza"       , "Pasta"       , "Kebab"       };
+        String[] sideOptions         = new String[]{"Chips" , "Curly Fries" , "Goujons"     , "Salad"       };
+        String[] drinkOptions        = new String[]{"Coke"  , "7up"         , "Club Orange" , "Club Lemon"  };
 
 
         // build each config panel
-        buildCustomisePanel("Main Course", mainCourse,  mainCourseOptions );
-        buildCustomisePanel("Side", side,        sideOptions );
-        buildCustomisePanel("Drink", drink,  drinkOptions );
+        buildCustomisePanel("Main Course", mainCourse   , mainCourseOptions );
+        buildCustomisePanel("Side"       , side         , sideOptions       );
+        buildCustomisePanel("Drink"      , drink        , drinkOptions      );
 
         // add panels to customisePanel
         for (JPanel p : customisePanels) {
@@ -124,12 +117,13 @@ public class CustomisePanel extends JPanel {
     public JPanel buildRadioButtonPanel(final String[] options,int type) {
 
         JPanel panel = new JPanel();
-        panel.setLayout(new MigLayout("", "[Center]"));
-        JRadioButton[] radioButtons = new JRadioButton[options.length]; // the array of radioButtons
 
         ButtonGroup radioButtonGroup = new ButtonGroup(); // used for exclusion
+
+        JRadioButton[] radioButtons = new JRadioButton[4]; // the array of radioButtons
         for (int i = 0; i < options.length; i++) {
             radioButtons[i] = new JRadioButton(options[i]);
+
             radioButtons[i].addActionListener(new ActionListener() {
                 // int type is used to allow the 4 panels to use the same actionListeners, when a listener is called it is updated accordingly
                 int newVar = type;
@@ -153,11 +147,13 @@ public class CustomisePanel extends JPanel {
                     configLabel.setText(order.toHtml());
                 }
             });
+
             radioButtonGroup.add(radioButtons[i]);
 
             panel.add(radioButtons[i]);
         }
         radioButtons[0].setSelected(true);
+
         return panel;
     }
 
@@ -170,14 +166,16 @@ public class CustomisePanel extends JPanel {
 
         panel.add(rbPanel);
 
+        customisePanel.setLayout(new MigLayout("","[100%]","[30%][70%]"));
+
         customisePanels[type] = panel;
     }
 
     // Creates the initial customise Panel
     public JPanel initCustomisePanel(String headerStr) {
         JPanel panel = new JPanel();
-        panel.setLayout(new MigLayout("","[30%,center][50%,left][20%, center]"));
-        panel.setSize(1000,180);
+        panel.setLayout(new MigLayout("","[280, left][grow, left]"));
+        panel.setSize(1100,180);
 
         // add Header label in first column
         JLabel headerPnl = new JLabel();

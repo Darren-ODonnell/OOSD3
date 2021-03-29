@@ -19,9 +19,10 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class Order_State extends Observable {
     AtomicInteger prevState = new AtomicInteger(-2);
     AtomicInteger state = new AtomicInteger(-2);
+
     // constants
     AtomicInteger NO_ORDER = new AtomicInteger(-2);
-    AtomicInteger BEFORE = new AtomicInteger(-1);
+    AtomicInteger NEW_ORDER = new AtomicInteger(-1);
     AtomicInteger COOKING = new AtomicInteger(0);
     AtomicInteger FINISHED = new AtomicInteger(1);
     AtomicInteger DELIVERED = new AtomicInteger(2);
@@ -52,7 +53,7 @@ public class Order_State extends Observable {
     public String toString(AtomicInteger state) {
         String str = "";
         if (state.get() == NO_ORDER.get())  str = "NO_ORDER";
-        if (state.get() == BEFORE.get())    str = "BEFORE";
+        if (state.get() == NEW_ORDER.get()) str = "NEW_ORDER";
         if (state.get() == COOKING.get())   str = "COOKING";
         if (state.get() == FINISHED.get())  str = "FINISHED";
         if (state.get() == DELIVERED.get()) str = "DELIVERED";

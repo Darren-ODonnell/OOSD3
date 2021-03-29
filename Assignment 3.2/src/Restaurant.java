@@ -1,5 +1,3 @@
-import javax.swing.*;
-import java.awt.*;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -10,7 +8,7 @@ public class Restaurant {
     Input input = new Input();
     static String order = "";
     public static final AtomicInteger NO_ORDER = new AtomicInteger(-2);
-    public static final AtomicInteger BEFORE = new AtomicInteger(-1);
+    public static final AtomicInteger NEW_ORDER = new AtomicInteger(-1);
     public static final AtomicInteger COOKING = new AtomicInteger(0);
     public static final AtomicInteger DELIVERED = new AtomicInteger(1);
     public static final AtomicInteger FINISHED = new AtomicInteger(2);
@@ -50,23 +48,8 @@ public class Restaurant {
             }
             if(order_State.equals( NO_ORDER)) {
                 order = input.string("Enter your order: ");
-                order_State = BEFORE;
+                order_State = NEW_ORDER;
             }
-//            sleep(1);
-
-//            if (DELIVERED.equals(Restaurant.order_State)) {
-//                order = input.string("Enter your order: ");
-//                order_State = BEFORE;
-//            } else if (BEFORE.equals(Restaurant.order_State)) {
-//            } else if (COOKING.equals(Restaurant.order_State)) {
-//                window.showMessage("Cooking");
-//            } else if (FINISHED.equals(Restaurant.order_State)) {
-//                window.showMessage("Finished");
-//            }
-
-
-               //Gives time for chef to cook meal
-//               sleep(4);
 
         }
         System.out.println("Order Complete - Treads stopped");

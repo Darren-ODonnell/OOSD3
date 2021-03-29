@@ -109,23 +109,10 @@ public class Order implements Serializable {
         setDrinkOption(index);
     }
 
-    public int getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(int quantity) {
-
-        this.quantity = quantity;
-    }
-
-    public int getTotalPrice(){
-        return this.basePrice * quantity;
-    }
-
     @Override
     public String toString() {
         return "Order{" +
-                ", Main Course=" + getMainCourseStr() +
+                "Main Course=" + getMainCourseStr() +
                 ", Side=" + getSideOption() +
                 ", Drink=" + getDrinkOption() +
                 ", totalPrice= €" + basePrice +
@@ -146,9 +133,9 @@ public class Order implements Serializable {
 
 
         String html = START_HTML +
-                "Main Course:       " + LINE_BREAK +
-                "Side:   " + LINE_BREAK +
-                "Drink:         " + END_HTML;
+                "Main Course:" + LINE_BREAK +
+                "Side:" + LINE_BREAK +
+                "Drink:" + END_HTML;
 
 
         return html;
@@ -168,6 +155,7 @@ public class Order implements Serializable {
 
         return html;
     }
+
     public String toHtmlLabel() {
 
         String START_HTML = "<HTML>";
@@ -190,6 +178,20 @@ public class Order implements Serializable {
     public boolean isCooked(){
         return isCooked;
     }
+
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(int quantity) {
+
+        this.quantity = quantity;
+    }
+
+    public int getTotalPrice(){
+        return this.basePrice * quantity;
+    }
+
 
 
 }
