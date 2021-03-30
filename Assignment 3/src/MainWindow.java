@@ -83,7 +83,6 @@ public class MainWindow extends JFrame {
 
     // Builds the landing page of the project
     public void buildMainPanel(){
-        mainPanel.setLayout(new MigLayout("", "[50%][50%]", "[50%][50%]"));
         ImageIcon icon = new ImageIcon("Images/Meal_Image.png");
         JLabel picLabel = new JLabel(icon);
         mainPanel.add(picLabel);
