@@ -2,41 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="06951ce2-d76e-4725-95cc-df3133230d97" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/miglayout_4_0_swing.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/uiDesigner.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assignment 3.2.iml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Images/HomePage_Image.png.docx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Images/Meal_Image.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Images/Title.docx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/miglayout-4.0-swing.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Assignment 3.2/Chef.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Assignment 3.2/CustomisePanel$1.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Assignment 3.2/CustomisePanel$2.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Assignment 3.2/CustomisePanel.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Assignment 3.2/Display.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Assignment 3.2/GuiObserver.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Assignment 3.2/MainWindow$1.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Assignment 3.2/MainWindow$2.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Assignment 3.2/MainWindow.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Assignment 3.2/Order.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Assignment 3.2/OrderPanel.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Assignment 3.2/Order_State.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Assignment 3.2/Restaurant.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Assignment 3.2/Waiter.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Chef.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/CustomisePanel.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Display.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/MainWindow.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Order.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/OrderPanel.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Order_State.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Restaurant.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Waiter.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -70,7 +36,6 @@
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
-    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/../Assignment 3_C19313413" />
@@ -121,17 +86,6 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration default="true" type="ArquillianJUnit" factoryName="" nameIsGenerated="true">
-      <option name="arquillianRunConfiguration">
-        <value>
-          <option name="containerStateName" value="" />
-        </value>
-      </option>
-      <option name="TEST_OBJECT" value="class" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
     <recent_temporary>
       <list>
         <item itemvalue="Application.Restaurant" />
@@ -154,6 +108,7 @@
       <workItem from="1617047981348" duration="96000" />
       <workItem from="1617096267420" duration="799000" />
       <workItem from="1617097624643" duration="12724000" />
+      <workItem from="1618331997929" duration="34000" />
     </task>
     <servers />
   </component>

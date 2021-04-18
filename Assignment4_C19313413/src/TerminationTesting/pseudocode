@@ -1,0 +1,29 @@
+setup threads
+
+
+
+foreach word
+
+    process(word)
+
+    save_to_array
+
+next word
+
+
+
+process(word)
+
+    sleep(1)
+
+    return
+
+
+save_to_array(word)
+
+synchronised(){
+
+
+
+}
+
