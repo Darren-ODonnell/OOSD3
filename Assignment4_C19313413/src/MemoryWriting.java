@@ -1,65 +1,36 @@
 import java.io.BufferedWriter;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.util.concurrent.Callable;
 
-public class MemoryWriting extends Thread{
-    WordRepository repo;
+public class MemoryWriting implements Callable<String> {
     FileHandling fh = new FileHandling();
     Utilities util = new Utilities();
+    String word;
+    BufferedWriter bw;
 
-    public MemoryWriting(WordRepository repo) {
-        this.repo = repo;
+
+    public MemoryWriting(BufferedWriter bw, String word) {
+        this.word = word;
+        this.bw = bw;
     }
 
-    public void writeToMemory(){
-        try {
-            FileWriter file = new FileWriter("memory.txt");
-            BufferedWriter bw = new BufferedWriter(file);
+    @Override
+    public String call() throws Exception {
 
-            synchronized (repo) {
+//        while (WordRepository.getWord() == null) {
+//            System.out.println("Word is null");
+//            util.sleep(1);
+//        }
+        synchronized (Driver.lock) {
 
-                while (true) {
-                    while (!repo.getState().equals(WordRepository.READING_STATE)) {
-                        try {
-                            repo.wait();
-                        } catch (InterruptedException ignored) {}
+            System.out.println("Memory Thread Name : " + Thread.currentThread().getName() + " : word : " + word);
 
-                    }
-                    repo.updateState(WordRepository.WRITING_STATE);
+            //Time given for memorising word
+//                util.sleep(1);
 
-                    //Time given for memorising word
-                    util.sleep(1);
+            fh.writeWord(bw, word);
 
-                    fh.writeWord(bw, repo.getWord());
-
-                    repo.updateState(WordRepository.EMPTY_STATE);
-
-                    repo.notify();
-
-                    if(repo.getState().equals(WordRepository.COMPLETED_STATE)){
-                        bw.close();
-                    }
-
-                    try {
-                        repo.wait();
-                    } catch (InterruptedException ignored) {}
-
-                }
-
-            }
-            }catch(IOException e){
-                e.printStackTrace();
-            }
-
-
-    }
-
-    public void run(){
-        try {
-            Thread.sleep(100);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
         }
-        writeToMemory();
+
+        return null;
     }
 }
