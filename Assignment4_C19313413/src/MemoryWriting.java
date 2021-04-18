@@ -1,13 +1,16 @@
 import java.io.BufferedWriter;
 import java.util.concurrent.Callable;
 
+//The class which holds what the threads will use to store the learned words in their memory
 public class MemoryWriting implements Callable<String> {
+    //This object is used for synchronising memory writing
+    final Object lock = new Object();
     FileHandling fh = new FileHandling();
     Utilities util = new Utilities();
     String word;
     BufferedWriter bw;
 
-
+    //Needs access to the bufferedWriter and word so that it can write the word to the memory file
     public MemoryWriting(BufferedWriter bw, String word) {
         this.word = word;
         this.bw = bw;
@@ -15,19 +18,19 @@ public class MemoryWriting implements Callable<String> {
 
     @Override
     public String call() throws Exception {
+        //Shows the current word held within the thread
+        System.out.println(Thread.currentThread().getName() + " : Current Word : " + word);
 
-//        while (WordRepository.getWord() == null) {
-//            System.out.println("Word is null");
-//            util.sleep(1);
-//        }
-        synchronized (Driver.lock) {
+        //Synchronised so that threads cannot write to file simultaneously
+        synchronized (lock) {
+            //Time given for memorising each word
+            util.sleepms(Utilities.SLEEP_TIMER);
 
-            System.out.println("Memory Thread Name : " + Thread.currentThread().getName() + " : word : " + word);
-
-            //Time given for memorising word
-//                util.sleep(1);
-
+            //Calls the write word method in FileHandling, which writes the word to the file using BufferedWriter bw
             fh.writeWord(bw, word);
+
+            //Displays the word after it has been memorised
+            System.out.println("--> "+ Thread.currentThread().getName() + " --> Memorised word : " + word);
 
         }
 

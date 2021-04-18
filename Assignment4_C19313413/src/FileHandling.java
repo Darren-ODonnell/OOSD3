@@ -1,80 +1,44 @@
 import java.io.*;
+import java.nio.file.Files;
 import java.util.Arrays;
 import java.util.Stack;
 
 public class FileHandling {
 
     /**
-     * REad file into string
-     * @param file - name of file
+     * Read file contents into a stack
+     * @param file
      * @return
-     * @throws IOException
      */
-    public String readFile(String file)  {
+    public Stack<String> readFileAsStack(String file)  {
+        Stack<String> stack = new Stack<>();
         BufferedReader reader = null;
+        String word = null;
+
+        //Opening File For Reading
         try {
             reader = new BufferedReader(new FileReader(file));
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
-        String         line = null;
-        StringBuilder  stringBuilder = new StringBuilder();
-        String         ls = System.getProperty("line.separator");
 
+        //Processing File
         try {
-            while((line = reader.readLine()) != null) {
-                stringBuilder.append(line);
-                stringBuilder.append(ls);
+            while((word = reader.readLine()) != null) {
+                //Add word to stack
+                stack.push(word);
             }
-
-            return stringBuilder.toString();
         } catch (IOException e) {
             e.printStackTrace();
-        } finally {
+        } finally { //When Finished, Close File
             try {
                 reader.close();
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
-        return stringBuilder.toString();
-    }
-
-    /**
-     * The method uses readfile into string first
-     * * readfile into array split by separator
-     * @param filename
-     * @param lineSeparator
-     * @return
-     * @throws IOException
-     */
-    public String[] readFileAsArray(String filename, String lineSeparator)  {
-
-        String fileContents = readFile(filename);
-
-        String[] result = fileContents.split(lineSeparator);
-
-        return result;
-    }
-
-    /**
-     * Read file contents into a stack
-     * @param filename
-     * @param lineSeparator
-     * @return
-     * @throws IOException
-     */
-    public Stack<String> readFileAsStack(String filename, String lineSeparator)  {
-
-        Stack<String> stack = new Stack<>();
-
-        String fileContents = readFile(filename);
-
-        stack.addAll(Arrays.asList(fileContents.split(lineSeparator)));
-
         return stack;
     }
-
 
     /**
      * Write single word to BufferedWriter file
@@ -82,12 +46,12 @@ public class FileHandling {
      * @param word
      */
     public void writeWord(BufferedWriter bw, String word) {
+        String ls = "\r\n";
         try {
-            bw.write(word);
+            bw.write(word + ls);
         }catch(IOException e){
             e.printStackTrace();
         }
-        //System.out.println("Word being written: " + word);
     }
 
     /**

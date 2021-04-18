@@ -1,6 +1,4 @@
 import java.io.BufferedWriter;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Stack;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -8,40 +6,47 @@ import java.util.concurrent.TimeUnit;
 
 public class Driver {
 
-    static boolean fileFinished = false;
-    Utilities util = new Utilities();
     FileHandling fh = new FileHandling();
     BufferedWriter bw = fh.openBufferedWriter("memory.txt");
-    static final Object lock = new Object();
+    final int MAX_THREADS = 10;
+    long stackSize;
 
-
-    static List<String> memoryList = new ArrayList<>();
-    private Stack<String> inputStack;
+    private Stack<String> stack;
 
     public Driver(){
         // create and start 4 memorising threads
-        ExecutorService executorService = Executors.newFixedThreadPool(100);
+        ExecutorService executorService = Executors.newFixedThreadPool(MAX_THREADS);
 
         // read in words into stack
-        inputStack = fh.readFileAsStack("words.txt", "\n");
+        stack = fh.readFileAsStack("words.txt");
+
+        //To be used for awaitTermination
+        stackSize = stack.size();
 
         // process each word in stack
-        while (!inputStack.empty()) {
+        while (!stack.empty()) {
 
-            synchronized (lock) {
-                String word = inputStack.pop();
-
-//                WordRepository.setWord(word);
-                MemoryWriting memoryWriting = new MemoryWriting(bw, word);
-                executorService.submit(memoryWriting);
-            }
-
+            //Constructs a MemoryWriting with buffered writer and the word popped from stack
+            MemoryWriting memoryWriting = new MemoryWriting(bw, stack.pop());
+            //Submits the Callable object memoryWriting to the ExecutorService
+            // to be acted on by the idle Threads in the Thread Pool
+            executorService.submit(memoryWriting);
         }
 
-        // make sure threads are closed down before closing file
+        tidyUp(executorService, fh);
+
+    }
+    // stops any new threads from being made from while allowing all current threads to finish
+    public void tidyUp(ExecutorService executorService, FileHandling fh){
+
         executorService.shutdown();
         try {
-            if(!executorService.awaitTermination(10, TimeUnit.SECONDS)){
+            //This allows for easily changing the size of input as well as the number of threads
+            //Without having to change the timer amounts
+            long timeout = Utilities.SLEEP_TIMER * stackSize * MAX_THREADS;
+
+            //awaitTermination waits until all threads are finished or the timer ending whichever happens first
+            if(!executorService.awaitTermination(timeout, TimeUnit.MILLISECONDS)){
                 System.out.println("**ERROR: THREAD TIMEOUT HAS OCCURRED\nPossible loss of data**");
             };
         } catch (InterruptedException e) {
@@ -54,21 +59,6 @@ public class Driver {
 
     public static void main(String[] args) {
         new Driver();
-    }
-
-    // Used for adding delay to GUI so that the changes to order state are more visible
-
-
-    public static void setFileFinished(){
-        fileFinished = true;
-    }
-
-    public static boolean getFileFinished(){
-        return fileFinished;
-    }
-
-    public void tidyup() {
-
     }
 
 }
