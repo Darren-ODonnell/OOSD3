@@ -4,7 +4,7 @@ import java.util.concurrent.TimeUnit;
 public class Utilities {
 
     //Sleep timer is referred to in 3 places, 2x inside MemoryWriter and 1x inside Driver for awaitTermination
-    static final int SLEEP_TIMER = 10;
+    static final int SLEEP_TIMER = 1000;
 
     /**
      * Sleep for i Seconds

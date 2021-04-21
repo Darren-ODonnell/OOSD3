@@ -5,9 +5,8 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
 public class Driver {
-
     FileHandling fh = new FileHandling();
-    BufferedWriter bw = fh.openBufferedWriter("memory.txt");
+
     final int MAX_THREADS = 10;
     long stackSize;
 
@@ -23,11 +22,17 @@ public class Driver {
         //To be used for awaitTermination
         stackSize = stack.size();
 
+        //Empties file so you can visually see words being input
+        fh.emptyFile("memory.txt");
+
         // process each word in stack
         while (!stack.empty()) {
 
             //Constructs a MemoryWriting with buffered writer and the word popped from stack
-            MemoryWriting memoryWriting = new MemoryWriting(bw, stack.pop());
+            MemoryWriting memoryWriting = new MemoryWriting(stack.pop());
+            fh.copyToTempFile(stack);
+            fh.copyTempToWords();
+
             //Submits the Callable object memoryWriting to the ExecutorService
             // to be acted on by the idle Threads in the Thread Pool
             executorService.submit(memoryWriting);
@@ -53,7 +58,7 @@ public class Driver {
             e.printStackTrace();
         }
 
-        fh.closeFile(bw);
+        //fh.closeFile(bw);
 
     }
 
